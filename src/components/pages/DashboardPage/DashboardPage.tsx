@@ -1,65 +1,144 @@
 import * as React from "react";
 import MaterialTable from "material-table";
+import * as accountAction from "../../../actions/account.action";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootReducers } from "../../../reducers";
+import { useState } from "react";
+
 
 const DashbordPage: React.FC<any> = () => {
-  
-  const [coourse, setCoourse] = useState<any[]>([]);
+
   const dispatch = useDispatch<any>();
-  const stockReducer = useSelector((state: RootReducers) => state.stockReducer);
+  const actionReducer = useSelector((state: RootReducers) => state.accountReducer);
   const navigate = useNavigate();
 
+  let userId = localStorage.getItem("userId");
+  const role = localStorage.getItem("role") as string;
+
+
   React.useEffect(() => {
-    dispatch(stockAction.loadStock());
+    if (userId) {
+      dispatch(accountAction.loadAccount(userId));
+    }
   }, []);
 
   const handleRowUpdate = (newData: any, resolve: any) => {
-    dispatch(stockAction.updateStock(newData.stockId,newData));
-      resolve();
+    dispatch(accountAction.updateAccount(newData, newData.accountId));
+    resolve();
   };
 
   const handleRowDelete = (oldData: any, resolve: any) => {
-    dispatch(stockAction.deleteStock(oldData.stockId));
+    dispatch(accountAction.deleteAccount(oldData.accountId));
     resolve();
   };
 
   const handleRowAdd = (newData: any, resolve: any) => {
-    dispatch(stockAction.addStock(newData, navigate));
+    dispatch(accountAction.createAccount(newData, navigate));
+
+    if (userId) {
+      dispatch(accountAction.loadAccount(userId));
+    }
     resolve();
   };
 
 
-  const [columns, setColumns] = useState([
-    { title: "Name", field: "name", type: "string" as const },
+  const [columns, setColumns] = useState<any>([
+    { title: "ID", field: "accountId", type: "numeric" as const, editable: 'never' },
     {
-      title: "Price",
-      field: "price",
-      type: "numeric" as const,
+      title: "Account Type",
+      field: "accountType",
+      type: "string" as const,
     },
-    { title: "Amount", field: "amount", type: "numeric" as const },
-    { title: "Type", field: "type", type: "string" as const },
+    { title: "About", field: "about", type: "string" as const },
+    { title: "Amount to be paid", field: "amount", type: "numeric" as const },
+    { title: "Payment method", field: "visa", type: "string" as const, editable: 'never' },
+
+    { title: "Amount paid", field: "amountPaid", type: "numeric" as const, editable: 'never' },
+    {
+      title: "Status",
+      field: "isPayment",
+      type: "string",
+      lookup: {
+        "Paid": "Paid",
+        "Unpaid": "Unpaid"
+      },
+      editable: (rowData: any) => rowData.isPayment !== 'Unpaid',
+    },
+    { title: "Create date", field: "updateDate", type: "string" as const, editable: 'never' },
+
   ]);
 
-  return (
-    <MaterialTable
-      title="Stock Product"
-      columns={columns}
-      data={stockReducer.result}
-      editable={{
-        onRowUpdate: (newData) =>
+  const [columnsV2, setColumnsV2] = useState<any>([
+    { title: "ID", field: "accountId", type: "numeric" as const, editable: 'never' },
+    { title: "Username", field: "username", type: "string", editable: 'never' },
+    {
+      title: "Account Type",
+      field: "accountType",
+      type: "string" as const,
+    },
+    { title: "About", field: "about", type: "string" as const },
+    { title: "Amount to be paid", field: "amount", type: "numeric" as const },
+    { title: "Payment method", field: "visa", type: "string" as const, editable: 'never' },
+
+    { title: "Amount paid", field: "amountPaid", type: "numeric" as const, editable: 'never' },
+    {
+      title: "Status",
+      field: "isPayment",
+      type: "string",
+      lookup: {
+        "Paid": "Paid",
+        "Unpaid": "Unpaid"
+      },
+      editable: (rowData: any) => rowData.isPayment !== 'Unpaid',
+    },
+    { title: "Create date", field: "updateDate", type: "string" as const, editable: 'never' },
+
+  ]);
+
+  const dataColums = (role: string) => {
+    if (role === "admin") {
+      return columnsV2;
+    } else {
+      return columns;
+    }
+  }
+
+
+  const isEditable = () => {
+    if (role === 'admin') {
+      return {
+        onRowUpdate: undefined,
+        onRowAdd: undefined,
+      }
+    } else {
+      return {
+        onRowUpdate: (newData: any) =>
           new Promise((resolve: any) => {
             handleRowUpdate(newData, resolve);
           }),
-        onRowDelete: (oldData) =>
-          new Promise((resolve) => {
-            handleRowDelete(oldData, resolve);
-          }),
-        onRowAdd: (newData) =>
+        onRowAdd: (newData: any) =>
           new Promise((resolve: any) => {
             handleRowAdd(newData, resolve);
           }),
-      }}
-    />
-  );
-};
+      }
+    }
+  }
 
-export default DashbordPage;
+    return (
+      <MaterialTable
+        title="Account"
+        columns={dataColums(role)}
+        data={actionReducer.result}
+        editable={{
+          onRowDelete: (oldData: any) =>
+            new Promise((resolve) => {
+              handleRowDelete(oldData, resolve);
+            }),
+          ...isEditable(),
+        }}
+      />
+    );
+  };
+
+  export default DashbordPage;

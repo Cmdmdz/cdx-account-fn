@@ -7,9 +7,9 @@ import {
   TOKEN,
   LOGOUT,
 } from "../Constants";
-import { User } from "../types/user.type";
 import { httpClient } from "../utils/httpclient";
 import { LoginResult } from "../types/authen.type";
+import { User_login } from "../types/user.type";
 
 export const setLoginFetchingToState = () => ({
   type: LOGIN_FETCHING,
@@ -28,7 +28,7 @@ export const setLogoutToState = () => ({
   type: LOGOUT,
 });
 
-export const login = (user: User, navigate: any) => {
+export const login = (user: User_login, navigate: any) => {
   return async (dispatch: any) => {
     try {
       // begin connecting...
@@ -38,6 +38,9 @@ export const login = (user: User, navigate: any) => {
       if (result.status === 200 && result.data.token != null) {
         setTimeout(() => {
           localStorage.setItem(TOKEN, result.data.token!);
+          localStorage.setItem("userId", result.data.userId!);
+          localStorage.setItem("role", result.data.role!);
+
           dispatch(setLoginSuccessToState(result.data));
           alert("Login Successfully");
           navigate("/dashboard");
@@ -55,11 +58,16 @@ export const login = (user: User, navigate: any) => {
 export const restoreLogin = () => {
   return (dispatch: any) => {
     const token = localStorage.getItem(TOKEN);
-    if (token) {
+    const userId = localStorage.getItem("userId");
+    const role = localStorage.getItem("role");
+
+    if (token && userId && role) {
       dispatch(
         setLoginSuccessToState({
           result: OK,
           token,
+          userId,
+          role,
           message: "Login successfully",
         })
       );

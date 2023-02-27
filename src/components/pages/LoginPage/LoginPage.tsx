@@ -2,10 +2,10 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, FormikProps } from "formik";
 import { Alert, Box, Button, Card, CardContent, Stack, SxProps, TextField, Theme, Typography } from "@mui/material";
-import { User } from "../../../types/user.type";
 import { useDispatch, useSelector } from "react-redux";
 import { RootReducers } from "../../../reducers";
 import * as loginActions from "../../../actions/login.action";
+import { User_login } from "../../../types/user.type";
 
 
 const LoginPage: React.FC<any> = () => {
@@ -19,7 +19,7 @@ const LoginPage: React.FC<any> = () => {
     buttons: { marginTop: 2 },
   };
 
-  const showFormV2 = ({ handleSubmit, handleChange, isSubmitting, values }: FormikProps<User>) => {
+  const showFormV2 = ({ handleSubmit, handleChange, isSubmitting, values }: FormikProps<User_login>) => {
     return (
       <form onSubmit={handleSubmit}>
         <TextField
@@ -62,7 +62,7 @@ const LoginPage: React.FC<any> = () => {
     );
   };
 
-  const initialValues: User = { username: "", password: "" };
+  const initialValues: User_login = { username: "", password: "" };
   return (
     <>
       <Box sx={classes.root}>

@@ -2,10 +2,10 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, FormikProps } from "formik";
 import { Alert, Box, Button, Card, CardContent, Stack, SxProps, TextField, Theme, Typography } from "@mui/material";
-import { User } from "../../../types/user.type";
 import * as registerActions from "../../../actions/register.action";
 import { useDispatch, useSelector } from "react-redux";
 import { RootReducers } from "../../../reducers";
+import { User_regis } from "../../../types/user.type";
 
 
 const RegisterPage: React.FC<any> = () => {
@@ -18,7 +18,7 @@ const RegisterPage: React.FC<any> = () => {
     buttons: { marginTop: 2 },
   };
 
-  const showFormV2 = ({ handleSubmit, handleChange, isSubmitting, values }: FormikProps<User>) => {
+  const showFormV2 = ({ handleSubmit, handleChange, isSubmitting, values }: FormikProps<User_regis>) => {
     return (
       <form onSubmit={handleSubmit}>
         <TextField
@@ -33,6 +33,40 @@ const RegisterPage: React.FC<any> = () => {
           autoComplete="email"
           autoFocus
         />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="firstname"
+          label="First Name"
+          onChange={handleChange}
+          value={values.firstname}
+        />
+
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="lastname"
+          label="Last Name"
+          onChange={handleChange}
+          value={values.lastname}
+        />
+
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email"
+          onChange={handleChange}
+          value={values.email}
+          autoComplete="email"
+        />
+
 
         <TextField
           variant="outlined"
@@ -61,7 +95,7 @@ const RegisterPage: React.FC<any> = () => {
     );
   };
 
-  const initialValues: User = { username: "", password: "" };
+  const initialValues: User_regis = { username: "", password: "", firstname: "", lastname: "",email: "" };
 
   return (
     <>

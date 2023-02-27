@@ -9,16 +9,25 @@ export const REGISTER_FETCHING = "REGISTER_FETCHING";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAILED = "REGISTER_FAILED";
 
-// Stock Page
-export const STOCK_FETCHING = "STOCK_FETCHING";
-export const STOCK_SUCCESS = "STOCK_SUCCESS";
-export const STOCK_FAILED = "STOCK_FAILED";
-export const STOCK_CLEAR = 'STOCK_CLEAR'
+export const ACCOUNT_FETCHING = "ACCOUNT_FETCHING";
+export const ACCOUNT_SUCCESS = "ACCOUNT_SUCCESS";
+export const ACCOUNT_FAILED = "ACCOUNT_FAILED";
+export const ACCOUNT_CLEAR = 'ACCOUNT_CLEAR'
 
-// Stock Edit Page
-export const STOCK_EDIT_FETCHING = "STOCK_EDIT_FETCHING";
-export const STOCK_EDIT_SUCCESS = "STOCK_EDIT_SUCCESS";
-export const STOCK_EDIT_FAILED = "STOCK_EDIT_FAILED";
+// ACCOUNT Edit Page
+export const ACCOUNT_EDIT_FETCHING = "ACCOUNT_EDIT_FETCHING";
+export const ACCOUNT_EDIT_SUCCESS = "ACCOUNT_EDIT_SUCCESS";
+export const ACCOUNT_EDIT_FAILED = "ACCOUNT_EDIT_FAILED";
+
+export const HISTORY_FETCHING = "HISTORY_FETCHING";
+export const HISTORY_SUCCESS = "HISTORY_SUCCESS";
+export const HISTORY_FAILED = "HISTORY_FAILED";
+export const HISTORY_CLEAR = 'HISTORY_CLEAR'
+
+export const CONTACT_FETCHING = "CONTACT_FETCHING";
+export const CONTACT_SUCCESS = "CONTACT_SUCCESS";
+export const CONTACT_FAILED = "CONTACT_FAILED";
+export const CONTACT_CLEAR = 'CONTACT_CLEAR'
 
 export const apiUrl = "http://localhost:9000";
 // export const imageUrl = "http://localhost:8085";
@@ -28,16 +37,20 @@ export const NO = "NO";
 export const OK = "ok";
 export const NOK = "nok";
 export const TOKEN = "TOKEN";
+export const USER_ID = "userId";
 
 export const LOGIN_STATUS = "LOGIN_STATUS";
 
 export const server = {
   LOGIN_URL: `login`,
   REGISTER_URL: `register`,
-  PRODUCT_URL: `stock/product`,
+  ACCOUNT_URL: `accounts`,
+  PAYMENT_URL: `payment`,
   TRANSACTION_URL: `transaction`,
   REPORT_URL: `stock/report`,
   LOGIN_PASSED: `yes`,
+  HISTORY_URL: `history`,
+  CONTACT_URL: `contact`
 };
 
 // Error Code

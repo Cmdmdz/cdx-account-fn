@@ -19,6 +19,8 @@ import DashbordPage from "./components/pages/DashboardPage";
 import FinancialPage from "./components/pages/FinancialPage";
 import PaymentPage from "./components/pages/PaymentPage";
 import HistoryPaymentPage from "./components/pages/HistoryPaymentPage";
+import ContactPage from "./components/pages/ContactPage";
+import FeedbackPage from "./components/pages/FeedbackPage";
 
 const drawerWidth = 240;
 
@@ -120,6 +122,8 @@ export default function App() {
               <Route path="/financial" element={<FinancialPage />} />
               <Route path="/payment" element={<PaymentPage />} />
               <Route path="/history" element={<HistoryPaymentPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/feedback" element={<FeedbackPage />} />
 
             </Route>
           </Routes>

@@ -4,7 +4,7 @@ import {
   REGISTER_SUCCESS,
   server,
 } from "../Constants";
-import { User } from "../types/user.type";
+import { User_login } from "../types/user.type";
 import { httpClient } from "../utils/httpclient";
 
 export const setRegisterFetchingToState = () => ({
@@ -20,7 +20,7 @@ export const setRegisterFailedToState = () => ({
   type: REGISTER_FAILED,
 });
 
-export const register = (user: User, navigate: any) => {
+export const register = (user: User_login, navigate: any) => {
   return async (dispatch: any) => {
     try {
       // begin connecting...

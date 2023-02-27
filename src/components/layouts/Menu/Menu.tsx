@@ -10,13 +10,15 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Layers from "@mui/icons-material/Layers";
-import BarChart from "@mui/icons-material/BarChart";
-import Person from "@mui/icons-material/Person";
 import { NavLink } from "react-router-dom";
 import { Stack } from "@mui/material";
 import PaymentIcon from '@mui/icons-material/Payment';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import HistoryIcon from '@mui/icons-material/History';
+import ContactsIcon from '@mui/icons-material/Contacts';
+import FeedbackIcon from '@mui/icons-material/Feedback';
+import LayersIcon from "@mui/icons-material/Layers";
+
 const drawerWidth = 240;
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -33,8 +35,11 @@ type MenuProp = {
   onDrawerClose: () => void;
 };
 
+
 export default function Menu({ open, onDrawerClose }: MenuProp) {
   const theme = useTheme();
+
+
 
   const handleDrawerClose = () => {
     // setOpen(false);
@@ -59,23 +64,38 @@ export default function Menu({ open, onDrawerClose }: MenuProp) {
       alt,
       ...otherProps
     } = props;
-  
+
     return (
       <img alt={alt} {...otherProps} />
     );
   }
 
-  const menuItems = [
-    { to: '/dashboard', icon: <Layers />, text: 'Dashboard' },
-    { to: '/financial', icon: <PaymentIcon />, text: 'Financial' },
-    { to: '/payment', icon: <LocalAtmIcon />, text: 'Payment' },
-    { to: '/history', icon: <HistoryIcon />, text: 'History Payment' },
-  ];
+  const menuList = (role: string) => {
+    if (role === "admin") {
+      return [
+        { to: "/dashboard", icon: <LayersIcon />, text: "Dashboard" },
+        { to: "/history", icon: <HistoryIcon />, text: "History Payment" },
+      ];
+    } else {
+      return [
+        { to: "/dashboard", icon: <LayersIcon />, text: "Dashboard" },
+        { to: "/payment", icon: <LocalAtmIcon />, text: "Payment" },
+        { to: "/history", icon: <HistoryIcon />, text: "History Payment" },
+      ];
+    }
+  };
 
-  const menudv = [
-    { to: '/report', icon: <BarChart />, text: 'Report' },
-    { to: '/aboutus', icon: <Person />, text: 'AboutUs' }
-  ];
+  const menuListV2 = (role: string) => {
+    if (role === "admin") {
+      return [{ to: "/feedback", icon: <FeedbackIcon />, text: "Feedback" },
+      ];
+    }
+    return [
+      { to: "/contact", icon: <ContactsIcon />, text: "Contact" },
+    ];
+  };
+
+  const role = localStorage.getItem("role") as string;
 
   return (
     <Drawer
@@ -93,7 +113,7 @@ export default function Menu({ open, onDrawerClose }: MenuProp) {
     >
       <DrawerHeader>
         <Stack direction="row" alignItems="center">
-          <Image alt="Logo" src={`${process.env.PUBLIC_URL}/images/codemobiles_logo.png`}  style={{ height: 30 }}></Image>
+          <Image alt="Logo" src={`${process.env.PUBLIC_URL}/images/codemobiles_logo.png`} style={{ height: 30 }}></Image>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
@@ -105,22 +125,22 @@ export default function Menu({ open, onDrawerClose }: MenuProp) {
       </DrawerHeader>
       <Divider />
       <List>
-      {menuItems.map((item) => (
-        <ListItem
-          button
-          key={item.to}
-          to={item.to}
-          component={MyNavLink}
-          activeClassName="Mui-selected"
-          exact
-        >
-          <ListItemIcon>{item.icon}</ListItemIcon>
-          <ListItemText primary={item.text} />
-        </ListItem>
-      ))}
+        {menuList(role).map((item) => (
+          <ListItem
+            button
+            key={item.to}
+            to={item.to}
+            component={MyNavLink}
+            activeClassName="Mui-selected"
+            exact
+          >
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText primary={item.text} />
+          </ListItem>
+        ))}
       </List>
       <Divider />
-      {menudv.map((item) => (
+      {menuListV2(role).map((item) => (
         <ListItem
           button
           key={item.to}
