@@ -29,7 +29,7 @@ export const CONTACT_SUCCESS = "CONTACT_SUCCESS";
 export const CONTACT_FAILED = "CONTACT_FAILED";
 export const CONTACT_CLEAR = 'CONTACT_CLEAR'
 
-export const apiUrl = "http://localhost:9000";
+export const apiUrl = "http://accountmanagement-env.eba-czpwprtm.ap-northeast-1.elasticbeanstalk.com";
 // export const imageUrl = "http://localhost:8085";
 
 export const YES = "YES";
